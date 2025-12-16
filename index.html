@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Escritorio de Herramientas</title>
+<style>
+body { font-family: Arial; display:flex; flex-direction:column; align-items:center; background:#cfd8e3; min-height:100vh; margin:0; padding:20px; }
+.header { width:100%; max-width:800px; background:white; padding:20px; border-radius:10px; text-align:center; margin-bottom:30px; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+.desktop { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; max-width:800px; width:100%;}
+.tool { background:white; padding:15px; border-radius:10px; width:200px; display:flex; flex-direction:column; align-items:center; box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+.tool input { width:100%; padding:8px; margin-top:10px; border-radius:6px; border:1px solid #ccc;}
+.tool button { margin-top:10px; padding:8px 12px; background:#003366; color:white; border:none; border-radius:6px; cursor:pointer;}
+.tool button:hover { background:#0055aa;}
+</style>
+</head>
+<body>
+
+<div class="header"><h1>Escritorio de Herramientas</h1></div>
+<div class="desktop" id="desktop"></div>
+
+<script>
+// Lista de apps iniciales
+const apps = [
+  {nombre:"Google"},
+  {nombre:"YouTube"},
+  {nombre:"Gmail"}
+];
+
+function cargarApps() {
+  const desktop = document.getElementById("desktop");
+  apps.forEach(app=>{
+    const div = document.createElement("div");
+    div.className="tool";
+    div.innerHTML = `<div><strong>${app.nombre}</strong></div>
+                     <input type="text" placeholder="Ingresa la URL"/>
+                     <button>Ir a ${app.nombre}</button>`;
+    desktop.appendChild(div);
+
+    const input = div.querySelector("input");
+    const button = div.querySelector("button");
+
+    button.addEventListener("click", ()=>{
+      let url=input.value.trim();
+      if(!url){ alert("Ingresa una URL válida."); return; }
+      if(!/^https?:\/\//i.test(url)){ url="https://"+url; }
+      window.open(url,"_blank");
+    });
+  });
+}
+
+window.onload=cargarApps;
+</script>
+
+</body>
+</html>
